@@ -128,16 +128,16 @@ export default async function Home() {
             </a>
           </div>
           <div className="relative">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl max-w-sm mx-auto">
               <img
-                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80"
-                alt="Church community"
-                className="w-full h-full object-cover"
+                src="/pastor-charles.jpg"
+                alt="Pastor Charles Survine"
+                className="w-full h-full object-cover object-top"
               />
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-gold text-navy p-6 rounded-2xl shadow-xl hidden md:block">
-              <div className="text-3xl font-bold">40+</div>
-              <div className="text-sm font-semibold">Years of Ministry</div>
+            <div className="absolute -bottom-6 -right-6 bg-gold text-navy p-5 rounded-2xl shadow-xl hidden md:block text-center">
+              <div className="text-sm font-bold uppercase tracking-wide">Pastor</div>
+              <div className="text-lg font-bold leading-tight">Charles Survine</div>
             </div>
           </div>
         </div>
