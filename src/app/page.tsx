@@ -46,7 +46,7 @@ export default async function Home() {
       <section
         className="relative h-screen flex flex-col justify-end text-white"
         style={{
-          backgroundImage: `url('http://peacefulrest.org/wp-content/uploads/2019/05/This-One.jpg')`,
+          backgroundImage: `url('/hero.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "center center",
         }}
