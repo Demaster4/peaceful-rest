@@ -270,12 +270,32 @@ export default async function Home() {
             Your generosity fuels our ministries, supports our community, and extends the reach of the Gospel.
             Every gift matters.
           </p>
-          <a
-            href="#"
-            className="inline-block bg-navy text-white font-bold px-10 py-4 rounded-full text-lg hover:bg-navy/90 transition-colors"
-          >
-            Give Online
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="https://www.givelify.com/donate/MzEwNzE=/selection"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-navy text-white font-bold px-8 py-4 rounded-full text-base hover:bg-navy/90 transition-colors"
+            >
+              Give via Givelify
+            </a>
+            <a
+              href="https://venmo.com/PRBCAurora"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-white text-navy font-bold px-8 py-4 rounded-full text-base hover:bg-white/90 transition-colors"
+            >
+              Give via Venmo
+            </a>
+            <a
+              href="https://paypal.me/peacefulrestchurch"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block border-2 border-navy text-navy font-bold px-8 py-4 rounded-full text-base hover:bg-navy/10 transition-colors"
+            >
+              Give via PayPal
+            </a>
+          </div>
         </div>
       </section>
 
