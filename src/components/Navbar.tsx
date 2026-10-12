@@ -6,6 +6,8 @@ import { Menu, X } from "lucide-react";
 
 const links = [
   { label: "About", href: "#about" },
+  { label: "Leadership", href: "#leadership" },
+  { label: "Watch Live", href: "#livestream" },
   { label: "Sermons", href: "#sermons" },
   { label: "Ministries", href: "#ministries" },
   { label: "Events", href: "#events" },
@@ -25,7 +27,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
           {links.map((l) => (
             <Link
               key={l.href}

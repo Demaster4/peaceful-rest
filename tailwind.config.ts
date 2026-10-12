@@ -11,6 +11,7 @@ const config: Config = {
       colors: {
         navy: "#0B1F3A",
         gold: "#C9A84C",
+        "gold-text": "#6B5A20",
         cream: "#FAF7F2",
       },
     },

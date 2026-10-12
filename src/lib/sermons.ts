@@ -51,7 +51,7 @@ export async function getSermons(limit = 6): Promise<Sermon[]> {
         title: parseSermonTitle(rawTitle),
         date: published,
         dateFormatted: formatDate(published),
-        thumbnail: thumbnail.replace("hqdefault", "maxresdefault"),
+        thumbnail,
         youtubeUrl: `https://www.youtube.com/watch?v=${videoId}`,
         description: description.split("\n")[0],
         serviceType: getServiceType(rawTitle),
