@@ -6,7 +6,7 @@
 - **Deploy command:** `npx vercel --yes --prod` (already authenticated as demaster4)
 
 ## Tech Stack
-- Next.js 14 (App Router), TypeScript
+- Next.js 16 (App Router), TypeScript
 - Tailwind CSS — colors: navy `#0B1F3A`, gold `#C9A84C`, cream `#FAF7F2`
 - Sanity.io — installed, NOT yet wired up
 - Vercel hosting (free)
