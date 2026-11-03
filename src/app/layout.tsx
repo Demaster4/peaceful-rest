@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s | Peaceful Rest Baptist Church",
   },
   description:
-    "God's Perfect Peace, in the midst of Life's Storms. Peaceful Rest Baptist Church in Aurora, CO — Sunday worship at 10am, in-person and online. Pastor Rev. Chuck Survine.",
+    "God's Perfect Peace, in the midst of Life's Storms. Peaceful Rest Baptist Church in Aurora, CO. Sunday worship at 10am, in-person and online. Pastor Rev. Chuck Survine.",
   keywords: [
     "Baptist church Aurora CO",
     "Peaceful Rest Baptist Church",
@@ -36,13 +36,13 @@ export const metadata: Metadata = {
     siteName: "Peaceful Rest Baptist Church",
     title: "Peaceful Rest Baptist Church | Aurora, CO",
     description:
-      "God's Perfect Peace, in the midst of Life's Storms. Join us Sundays at 10am — in person or online. 1195 Lima St, Aurora, CO 80010.",
+      "God's Perfect Peace, in the midst of Life's Storms. Join us Sundays at 10am, in person or online. 1195 Lima St, Aurora, CO 80010.",
     images: [
       {
         url: "/hero.jpg",
         width: 1200,
         height: 630,
-        alt: "Peaceful Rest Baptist Church — Aurora, CO",
+        alt: "Peaceful Rest Baptist Church in Aurora, CO",
       },
     ],
   },
@@ -71,7 +71,7 @@ const churchJsonLd = {
     "God's Perfect Peace, in the midst of Life's Storms. Baptist church serving Aurora, Colorado.",
   url: SITE_URL,
   telephone: "(303) 364-4100",
-  email: "info@peacefulrestbc.org",
+  email: "info@peacefulrest.org",
   address: {
     "@type": "PostalAddress",
     streetAddress: "1195 Lima St",

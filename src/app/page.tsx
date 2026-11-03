@@ -2,14 +2,14 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import LiveStreamFacade from "@/components/LiveStreamFacade";
 import { getSermons } from "@/lib/sermons";
-import { MapPin, Clock, Phone, Youtube, Instagram, Facebook, ChevronRight } from "lucide-react";
+import { MapPin, Clock, Phone, Mail, Video, Youtube, Instagram, Facebook, ChevronRight } from "lucide-react";
 
 const leadership = [
   {
     name: 'Charles "Chuck" Edward Survine',
     title: "Senior Pastor",
     image: "/pastor-survine-bc.webp",
-    bio: "Born in Los Angeles and raised right here in Denver, Pastor Chuck answered the call to ministry early in life. He was licensed and ordained in 1993 and has been leading Peaceful Rest Baptist Church ever since. With a background in applied science, theology, and biblical studies, his preaching is rooted in the Word and connected to everyday life. Outside the pulpit, he serves as 2nd Vice Moderator of the Northern District Baptist Association. Above all, he is a devoted husband to Melissa and a proud father to their daughter, Alyssa. \"…and what doth the Lord require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?\" — Micah 6:8",
+    bio: "Born in Los Angeles and raised right here in Denver, Pastor Chuck answered the call to ministry early in life. He was licensed and ordained in 1993 and has been leading Peaceful Rest Baptist Church ever since. With a background in applied science, theology, and biblical studies, his preaching is rooted in the Word and connected to everyday life. Outside the pulpit, he serves as 2nd Vice Moderator of the Northern District Baptist Association. Above all, he is a devoted husband to Melissa and a proud father to their daughter, Alyssa. \"…and what doth the Lord require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?\" Micah 6:8",
   },
   {
     name: "Melissa Survine",
@@ -19,9 +19,9 @@ const leadership = [
   },
   {
     name: "Alex Burse",
-    title: "Music Director",
+    title: "Minister of Music",
     image: "/music-director.png",
-    bio: "Alex leads our choir and worship team, bringing a deep love for music to our Sunday services. He knows how to bridge the gap between generations, blending the traditional hymns we grew up with and the contemporary praise songs of today. For Alex, it isn't just about hitting the right notes—it's about preparing the congregation's hearts for the Word each week.",
+    bio: "Alex leads our choir and worship team, bringing a deep love for music to our Sunday services. He knows how to bridge the gap between generations, blending the traditional hymns we grew up with and the contemporary praise songs of today. For Alex, it isn't just about hitting the right notes. It's about preparing the congregation's hearts for the Word each week.",
   },
 ];
 
@@ -53,11 +53,13 @@ const ministries = [
 ];
 
 const events = [
-  { date: "MAR 23", title: "Family Fun Day", time: "12pm – 4pm", desc: "A day of food, games, and fellowship for the whole family." },
-  { date: "MAR 30", title: "Women's Brunch", time: "10am – 1pm", desc: "Join our women's ministry for an inspiring morning of community." },
-  { date: "APR 6", title: "Easter Sunday", time: "8:30am & 10am", desc: "He is risen! Two services — invite someone who needs to hear it." },
-  { date: "APR 13", title: "Men's Breakfast", time: "8am – 10am", desc: "Monthly gathering for the men of PRBC." },
+  { date: "MAR 23", title: "Family Fun Day", time: "12pm to 4pm", desc: "A day of food, games, and fellowship for the whole family." },
+  { date: "MAR 30", title: "Women's Brunch", time: "10am to 1pm", desc: "Join our women's ministry for an inspiring morning of community." },
+  { date: "APR 6", title: "Easter Sunday", time: "8:30am & 10am", desc: "He is risen! Two services, so invite someone who needs to hear it." },
+  { date: "APR 13", title: "Men's Breakfast", time: "8am to 10am", desc: "Monthly gathering for the men of PRBC." },
 ];
+
+export const revalidate = 3600;
 
 export default async function Home() {
   const sermons = await getSermons(3);
@@ -205,11 +207,38 @@ export default async function Home() {
             <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-2">Join Us Online</p>
             <h2 className="text-white text-4xl font-extrabold tracking-tight">Watch Live</h2>
             <p className="text-gray-400 text-lg mt-3">
-              Every Sunday at 10am — worship with us from anywhere in the world.
+              Every Sunday at 10am. Worship with us from anywhere in the world.
             </p>
           </div>
 
           <LiveStreamFacade />
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <a
+              href="https://us02web.zoom.us/j/530723205?pwd=VFROOVRuN3c4TThPWlBtZkpJYUJ0UT09"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border border-white/40 text-white font-bold px-8 py-4 rounded-full hover:bg-white hover:text-navy transition-colors"
+            >
+              <Video size={20} aria-hidden="true" />
+              Join on Zoom
+            </a>
+            <a
+              href="https://www.facebook.com/prbcaurora/live"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border border-white/40 text-white font-bold px-8 py-4 rounded-full hover:bg-white hover:text-navy transition-colors"
+            >
+              <Facebook size={20} aria-hidden="true" />
+              Watch on Facebook
+            </a>
+          </div>
+
+          <p className="text-gray-300 text-base text-center mt-6">
+            No computer? Call{" "}
+            <a href="tel:+13126266799" className="font-semibold text-white underline underline-offset-4">312 626-6799</a>.
+            {" "}Meeting ID 530 723 205, password 1987. Long distance charges may apply.
+          </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
             <a
@@ -390,7 +419,7 @@ export default async function Home() {
                   name: "Can I watch Peaceful Rest Baptist Church services online?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Yes! We stream all services live on YouTube at youtube.com/@prbcaurora. Past sermons are also available there.",
+                    text: "Yes. Join us on Zoom, Facebook Live, or YouTube at youtube.com/@prbcaurora. Past sermons are also available on YouTube.",
                   },
                 },
                 {
@@ -430,7 +459,7 @@ export default async function Home() {
             {[
               {
                 q: "What time are Sunday services?",
-                a: "Sunday School starts at 8:30am and Worship Service begins at 10am — both in-person and livestreamed online.",
+                a: "Sunday School starts at 8:30am and Worship Service begins at 10am, both in-person and livestreamed online.",
               },
               {
                 q: "Where are you located?",
@@ -438,7 +467,7 @@ export default async function Home() {
               },
               {
                 q: "Can I watch services online?",
-                a: "Absolutely. Every service streams live on YouTube @prbcaurora — and past sermons are always available there.",
+                a: "Yes. Join us on Zoom, Facebook Live, or YouTube @prbcaurora. Past sermons are always on YouTube.",
               },
               {
                 q: "Who is the pastor?",
@@ -525,9 +554,10 @@ export default async function Home() {
                 <Clock size={20} className="text-gold mt-1 flex-shrink-0" aria-hidden="true" />
                 <div>
                   <p className="font-semibold text-navy">Service Times</p>
-                  <p>Sunday School — 8:30am</p>
-                  <p>Worship Service — 10am</p>
-                  <p>Bible Study — Wednesday evenings</p>
+                  <p>Sunday School and New Members Class: 8:30am</p>
+                  <p>Worship Service: Sundays, 10am</p>
+                  <p>Seniors on the Move: Tuesdays, 11am on Zoom</p>
+                  <p>Bible Study and Prayer: Wednesdays, 7pm on Zoom</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -535,6 +565,13 @@ export default async function Home() {
                 <div>
                   <p className="font-semibold text-navy">Phone</p>
                   <p>(303) 364-4100</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Mail size={20} className="text-gold mt-1 flex-shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="font-semibold text-navy">Email</p>
+                  <a href="mailto:info@peacefulrest.org" className="underline underline-offset-4 hover:text-navy">info@peacefulrest.org</a>
                 </div>
               </div>
             </div>
