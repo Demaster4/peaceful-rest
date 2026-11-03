@@ -1,4 +1,5 @@
 const CHANNEL_ID = "UCnGWqkgS_j0n2bGEwldnXTA";
+const LIVE_TAB_URL = "https://www.youtube.com/@prbcaurora/streams";
 const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
 
 export interface Sermon {
@@ -32,14 +33,14 @@ function getServiceType(raw: string): string {
   return "Sunday Service";
 }
 
-// Shown when YouTube's feed is unavailable, which happens often. Newest first.
+// Last resort when YouTube can't be read. Newest first.
 const SAVED_SERMONS: Sermon[] = [
-  savedSermon("1V6NyYyOvrc", "Meet ME, on The Mountain", "2026-06-14"),
-  savedSermon("2RcKrdob8J8", "BUT Caleb", "2026-06-07"),
-  savedSermon("u1kbnw1Iu9s", "Settling for Separation", "2025-12-14"),
+  sermonFromVideo("zOKp2f_F4zY", "Stumbling Blocks for Fools", "2026-11-01"),
+  sermonFromVideo("Dxw0xcn2AmU", "12 Years of Kingdom Impact", "2026-10-18"),
+  sermonFromVideo("tDAy7yvVa6Q", "The Power of Grace", "2026-10-18"),
 ];
 
-function savedSermon(id: string, title: string, day: string): Sermon {
+function sermonFromVideo(id: string, title: string, day: string): Sermon {
   const date = `${day}T17:00:00Z`;
   return {
     id,
@@ -73,27 +74,74 @@ function parseFeed(xml: string, limit: number): Sermon[] {
   });
 }
 
-const FEED_ATTEMPTS = 3;
-const fetchFeedFromYouTube = () => fetch(RSS_URL, { next: { revalidate: 3600 } });
+function findLockups(node: unknown, found: LiveTabLockup[] = []): LiveTabLockup[] {
+  if (Array.isArray(node)) {
+    for (const item of node) findLockups(item, found);
+  } else if (node && typeof node === "object") {
+    for (const [key, value] of Object.entries(node)) {
+      if (key === "lockupViewModel") found.push(value as LiveTabLockup);
+      else findLockups(value, found);
+    }
+  }
+  return found;
+}
+
+interface LiveTabLockup {
+  contentId?: string;
+  metadata?: { lockupMetadataViewModel?: { title?: { content?: string } } };
+}
+
+// The church's services are listed under the channel's Live tab, in titles
+// like "Sunday Service: 11/1/2026 - Sermon Title".
+function parseLiveTab(html: string, limit: number): Sermon[] {
+  const json = html.match(/var ytInitialData = (\{[\s\S]*?\});<\/script>/)?.[1];
+  if (!json) return [];
+
+  const sermons: Sermon[] = [];
+  const seenTitles = new Set<string>();
+  for (const lockup of findLockups(JSON.parse(json))) {
+    const id = lockup.contentId;
+    const rawTitle = lockup.metadata?.lockupMetadataViewModel?.title?.content;
+    const day = rawTitle?.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (!id || !rawTitle || !day || seenTitles.has(rawTitle)) continue;
+
+    const date = `${day[3]}-${day[1].padStart(2, "0")}-${day[2].padStart(2, "0")}T17:00:00Z`;
+    if (new Date(date).getTime() > Date.now() + 86_400_000) continue;
+
+    seenTitles.add(rawTitle);
+    sermons.push(sermonFromVideo(id, parseSermonTitle(rawTitle), date.slice(0, 10)));
+    if (sermons.length === limit) break;
+  }
+  return sermons;
+}
+
+const SOURCES = [
+  { url: LIVE_TAB_URL, parse: parseLiveTab },
+  { url: RSS_URL, parse: parseFeed },
+];
+const ATTEMPTS_PER_SOURCE = 2;
+const fetchFromYouTube = (url: string) => fetch(url, { next: { revalidate: 3600 } });
 const pause = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 export async function getSermons(
   limit = 6,
-  fetchFeed: () => Promise<Response> = fetchFeedFromYouTube,
+  fetchUrl: (url: string) => Promise<Response> = fetchFromYouTube,
   wait: (ms: number) => Promise<void> = pause,
 ): Promise<Sermon[]> {
-  for (let attempt = 1; attempt <= FEED_ATTEMPTS; attempt++) {
-    try {
-      const res = await fetchFeed();
-      if (res.ok) {
-        const sermons = parseFeed(await res.text(), limit);
-        if (sermons.length > 0) return sermons;
+  for (const { url, parse } of SOURCES) {
+    for (let attempt = 1; attempt <= ATTEMPTS_PER_SOURCE; attempt++) {
+      try {
+        const res = await fetchUrl(url);
+        if (res.ok) {
+          const sermons = parse(await res.text(), limit);
+          if (sermons.length > 0) return sermons;
+        }
+        console.error(`Sermon source ${url} attempt ${attempt} failed with status ${res.status}`);
+      } catch (e) {
+        console.error(`Sermon source ${url} attempt ${attempt} failed:`, e);
       }
-      console.error(`Sermon feed attempt ${attempt} failed with status ${res.status}`);
-    } catch (e) {
-      console.error(`Sermon feed attempt ${attempt} failed:`, e);
+      if (attempt < ATTEMPTS_PER_SOURCE) await wait(1000);
     }
-    if (attempt < FEED_ATTEMPTS) await wait(attempt * 1000);
   }
   return SAVED_SERMONS.slice(0, limit);
 }
