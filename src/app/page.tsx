@@ -18,7 +18,7 @@ const leadership = [
     bio: "First Lady Melissa works alongside Pastor Chuck to care for the families of Peaceful Rest. She leads our Women's Ministry with a focus on real mentorship and consistent prayer. Whether she's organizing an event or simply checking in on a member after service, Melissa's goal is to make sure everyone who walks through our doors feels welcome and at home.",
   },
   {
-    name: "Alex Burns",
+    name: "Alex Burse",
     title: "Music Director",
     image: "/music-director.png",
     bio: "Alex leads our choir and worship team, bringing a deep love for music to our Sunday services. He knows how to bridge the gap between generations, blending the traditional hymns we grew up with and the contemporary praise songs of today. For Alex, it isn't just about hitting the right notes—it's about preparing the congregation's hearts for the Word each week.",
